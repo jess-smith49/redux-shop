@@ -8,7 +8,7 @@ import ApolloClient from 'apollo-boost';
 
 //redux provider
 import { Provider} from 'react-redux';
-import store from './utils/store';
+import Store from './utils/store';
 
 import Home from "./pages/Home";
 import Detail from "./pages/Detail";
@@ -35,6 +35,8 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+       {/**wrap around whole app */}
+      <Provider store = {Store}>
       <Router>
         <div>
           <StoreProvider>
@@ -51,6 +53,7 @@ function App() {
           </StoreProvider>
         </div>
       </Router>
+      </Provider>
     </ApolloProvider>
 
   );
