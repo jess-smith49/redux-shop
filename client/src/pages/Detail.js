@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Store from '../utils/store';
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 
@@ -31,11 +32,11 @@ function Detail() {
     } 
     // retrieved from server
     else if (data) {
-      dispatch({
+      /*dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
-      });
-
+      });*/
+      Store.dispatch({type: UPDATE_PRODUCTS, payload: [products]})
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
@@ -43,41 +44,45 @@ function Detail() {
     // get cache from idb
     else if (!loading) {
       idbPromise('products', 'get').then((indexedProducts) => {
-        dispatch({
+        /*dispatch({
           type: UPDATE_PRODUCTS,
           products: indexedProducts
-        });
+        });*/
       });
+      Store.dispatch({type: UPDATE_PRODUCTS, payload: [products]})
     }
   }, [products, data, loading, dispatch, id]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id)
     if (itemInCart) {
-      dispatch({
+      /*dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
-      });
+      });*/
+      Store.dispatch({type: UPDATE_CART_QUANTITY, payload: [itemInCart]})
       idbPromise('cart', 'put', {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
     } else {
-      dispatch({
+      /*dispatch({
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 }
-      });
+      });*/
+      Store.dispatch({type: ADD_TO_CART, payload: [...currentProduct]})
       idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
 
     }
   }
 
   const removeFromCart = () => {
-    dispatch({
+    /*dispatch({
       type: REMOVE_FROM_CART,
       _id: currentProduct._id
-    });
+    });*/
+    Store.dispatch({type: REMOVE_FROM_CART, payload: [...currentProduct]})
 
     idbPromise('cart', 'delete', { ...currentProduct });
   };
