@@ -20,26 +20,27 @@ const initialState = {
   currentCategory: [],
 };
 
-//initial state being uses for varaibles
+//initial state being uses for varaibles//do not need to use payload -> standardizes the object being passed through
+//tutor said no payload needed --> reverted inside of function back to original state
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_PRODUCTS:
       return {
         ...state,
-        products: [...action.payload],
+        products: [...action.products],
       };
 
     case ADD_TO_CART:
       return {
         ...state,
         cartOpen: true,
-        cart: [...state.cart, action.payload],
+        cart: [...state.cart, action.product],
       };
 
     case ADD_MULTIPLE_TO_CART:
       return {
         ...state,
-        cart: [...state.cart, ...action.payload],
+        cart: [...state.cart, ...action.products],
       };
 
     case UPDATE_CART_QUANTITY:
@@ -47,8 +48,8 @@ export const reducer = (state = initialState, action) => {
         ...state,
         cartOpen: true,
         cart: state.cart.map(product => {
-          if (action.payload === product._id) {
-            product.purchaseQuantity = action.payload
+          if (action._id === product._id) {
+            product.purchaseQuantity = action.purchaseQuantity
           }
           return product
         })
@@ -56,7 +57,7 @@ export const reducer = (state = initialState, action) => {
 
     case REMOVE_FROM_CART:
       let newState = state.cart.filter(product => {
-        return product._id !== action.payload;
+        return product._id !== action._id;
       });
 
       return {
@@ -81,27 +82,32 @@ export const reducer = (state = initialState, action) => {
     case UPDATE_CATEGORIES:
       return {
         ...state,
-        categories: [...action.payload],
+        categories: [...action.categories],
       };
 
     case UPDATE_CURRENT_CATEGORY:
       return {
         ...state,
-        currentCategory: action.payload
+        currentCategory: action.currentCategory
       }
 
     default:
       return state;
+  
   }
 };
 
-export function useProductReducer(initialState) {
+/*export function useProductReducer(initialState) {
   return useReducer(reducer, initialState)
-}
+}*/
+
+export default reducer;
 
 //root reducer//one default export per file
+//tutor said not needed
+/*
 export default function rootReducer(state={}, action){
   return {
     reducer: reducer(state, action)
   }
-}
+}*/

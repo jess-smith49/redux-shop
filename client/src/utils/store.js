@@ -1,8 +1,8 @@
 import {createStore} from 'redux';
-import  {reducer} from './reducers';
+import  reducer from './reducers';
 
-//loading initial state
-let preloadedState
+//loading initial state//not required 
+/*let preloadedState
 
 preloadedState = {
     products: [],
@@ -10,8 +10,8 @@ preloadedState = {
     cartOpen: false,
     categories: [],
     currentCategory: ''
-};
+};/*/
+//dont need
+//const Store = createStore(reducer, preloadedState)
 
-const Store = createStore(reducer, preloadedState)
-
-export default Store;
+export default createStore(reducer);
