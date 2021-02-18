@@ -4,9 +4,13 @@ import { pluralize } from "../../utils/helpers"
 import { useStoreContext } from "../../utils/GlobalState";
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from "../../utils/actions";
 import { idbPromise } from "../../utils/helpers";
+//imports
+import {useSelector, useDispatch} from 'react-redux';
 
 function ProductItem(item) {
-  const [state, dispatch] = useStoreContext();
+  //const [state, dispatch] = useStoreContext();
+  const dispatch = useDispatch();
+  const state = useSelector(state  => state);
 
   const {
     image,
@@ -17,6 +21,8 @@ function ProductItem(item) {
   } = item;
 
   const { cart } = state
+
+  //do i have to do anything with these?
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id)
