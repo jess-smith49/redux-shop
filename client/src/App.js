@@ -16,7 +16,7 @@ import NoMatch from "./pages/NoMatch";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Nav from "./components/Nav";
-import { StoreProvider } from "./utils/GlobalState";
+//import { StoreProvider } from "./utils/GlobalState";
 import Success from "./pages/Success";
 import OrderHistory from "./pages/OrderHistory";
 
@@ -32,13 +32,16 @@ const client = new ApolloClient({
   uri: '/graphql',
 })
 
+//provider goes in the router div
 function App() {
   return (
     <ApolloProvider client={client}>
        {/**wrap around whole app */}
-      <Provider store = {Store}>
+     
       <Router>
-        <div>
+        <div> 
+          <Provider store = {Store}>
+
             <Nav />
             <Switch>
               <Route exact path="/" component={Home} />
@@ -49,9 +52,10 @@ function App() {
               <Route exact path="/products/:id" component={Detail} />
               <Route component={NoMatch} />
             </Switch>
+            </Provider>
         </div>
       </Router>
-      </Provider>
+      
     </ApolloProvider>
 
   );
